@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# HUP git pre-push hook for hive-pwa (Next.js).
+# Blocks the push if the pre-flight gates fail — same guard the Hermes fleet uses.
+set -uo pipefail
+ROOT="$(git rev-parse --show-toplevel)"
+if [ -f "$ROOT/scripts/hup-preflight.sh" ]; then
+  bash "$ROOT/scripts/hup-preflight.sh" --strict
+  exit $?
+fi
+echo "hup-preflight.sh not found — allowing push (no guard active)"
+exit 0
