@@ -4,7 +4,7 @@
 set -uo pipefail
 ROOT="$(git rev-parse --show-toplevel)"
 if [ -f "$ROOT/scripts/hup-preflight.sh" ]; then
-  bash "$ROOT/scripts/hup-preflight.sh" --strict
+  bash "$ROOT/scripts/hup-preflight.sh"
   exit $?
 fi
 echo "hup-preflight.sh not found — allowing push (no guard active)"

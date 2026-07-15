@@ -37,5 +37,5 @@ git push -u origin main                  # preflight must pass first
 ```
 Railway (watching `Buzz-Hive-Life/hive-pwa`) auto-builds + deploys. CB's expired GitHub token must be refreshed first (see blocker note).
 
-## Blocker (2026-07-15)
-CB's stored GitHub tokens (`~/.git-credentials`, `/opt/data/hive-docs-gh-token.txt`) are **expired (401)**. Until a valid token (or Buzz/Fundy) creates the empty `Buzz-Hive-Life/hive-pwa` repo, CB can scaffold + audit but not push. The scaffold is committed and push-ready.
+## Status (2026-07-15)
+Repo `Buzz-Hive-Life/hive-pwa` created; CB's GitHub token refreshed by Randy. Scaffold committed + pushed via HUP-ready pipeline. **Next:** Buzz drops his local PWA source (`app/`, `package.json`, `next.config.js`) into this repo on top of the scaffold, then Railway (watching the repo) auto-builds + deploys.
