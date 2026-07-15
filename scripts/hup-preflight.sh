@@ -11,9 +11,9 @@ STRICT=false
 [[ "${1:-}" == "--strict" ]] && STRICT=true
 
 check() { printf "  %-50s " "$1"; }
-pass()  { echo -e "${GREEN}PASS${NC}"; ((PASS++)); }
-fail()  { echo -e "${RED}FAIL${NC}  -> $1"; ((FAIL++)); }
-warn()  { echo -e "${YELLOW}WARN${NC}  -> $1"; ((WARN++)); $STRICT && ((FAIL++)); }
+pass()  { echo -e "${GREEN}PASS${NC}"; PASS=$((PASS+1)); }
+fail()  { echo -e "${RED}FAIL${NC}  -> $1"; FAIL=$((FAIL+1)); }
+warn()  { echo -e "${YELLOW}WARN${NC}  -> $1"; WARN=$((WARN+1)); $STRICT && FAIL=$((FAIL+1)); }
 
 echo "═══════════════════════════════════════════════════"
 echo "  HIVE-PWA HUP PRE-FLIGHT v3.0 (Next.js) — $(date '+%Y-%m-%d %H:%M:%S')"
