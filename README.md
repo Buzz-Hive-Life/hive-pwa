@@ -37,5 +37,20 @@ git push -u origin main                  # preflight must pass first
 ```
 Railway (watching `Buzz-Hive-Life/hive-pwa`) auto-builds + deploys. CB's expired GitHub token must be refreshed first (see blocker note).
 
-## Status (2026-07-15)
-Repo `Buzz-Hive-Life/hive-pwa` created; CB's GitHub token refreshed by Randy. Scaffold committed + pushed via HUP-ready pipeline. **Next:** Buzz drops his local PWA source (`app/`, `package.json`, `next.config.js`) into this repo on top of the scaffold, then Railway (watching the repo) auto-builds + deploys.
+## 🐝 The Honey Forager (open-source public-goods engine)
+This repo also hosts **[`forager/`](forager/README.md)** — Hive Life Haven's open
+agentic value-recovery engine. It harvests overlooked public value (grants, rebates,
+unclaimed balances) and drafts claim packets for human review, routing recovered
+value to affordable housing. It is a flagship feature of the Hive App and is being
+submitted to **Gitcoin GG24 (Public Goods R&D)** as open public-goods tooling.
+
+## License
+**Apache-2.0** — see [LICENSE](LICENSE). Permissive, with an explicit patent grant.
+Code in this repo is open; internal deployment infra (Discord delivery, service
+accounts) is intentionally excluded.
+
+## Status (2026-07-19)
+Repo made **public**; Apache-2.0 LICENSE added; Honey Forager open-source code
+committed. **Next:** drop the full Next.js PWA source (`app/`, `package.json`,
+`next.config.js`) into this repo on top of the scaffold, then Railway (watching the
+repo) auto-builds + deploys.
