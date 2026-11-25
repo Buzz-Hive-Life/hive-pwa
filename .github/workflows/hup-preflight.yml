@@ -1,0 +1,26 @@
+name: hup-preflight
+
+# WHY THIS EXISTS (2026-11-25): the pre-push gate ships in .githooks/ and is ARMED PER
+# CLONE (`git config core.hooksPath .githooks`). The README named that command twice and
+# a clone still read it UNSET — so the gate was DELIVERED and never ARMED. A hook has to
+# be armed by its own subject; CI does not. This runs the SAME preflight directly, so the
+# gate has a route that no clone can forget to configure.
+#
+# The local hook stays the fast, pre-commit-time guard. This is the one that cannot be
+# skipped by a fresh clone.
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  preflight:
+    name: HUP pre-flight (9 gates)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run the repo's own preflight (same script the hook runs)
+        run: bash scripts/hup-preflight.sh

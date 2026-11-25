@@ -21,10 +21,17 @@ Extend the existing PWA with an invite-only photo/text feed (the seed for full H
 ## HUP wiring (this repo)
 - `railway.toml` — RAILPACK builder, `npm start`, healthcheck `/`, `restartPolicyMaxRetries = 10`.
 - `scripts/hup-preflight.sh` — 9 safety gates (Next.js-adapted). Run before every push.
-- `.githooks/pre-push` — auto-runs the preflight on `git push` (strict). Enable once:
+- `.githooks/pre-push` — auto-runs the preflight on `git push`. **Arm it per clone:**
   ```bash
-  git config core.hooksPath .githooks
+  bash scripts/arm-hooks.sh          # one step; prints the read-back, exit 0 = armed
+  bash scripts/arm-hooks.sh --check  # ask "is this clone armed?" — exit 1 = NOT armed
   ```
+  ⚠️ The raw command is `git config core.hooksPath .githooks`, and this README named it twice
+  while a clone still read it **unset** — *a named instruction is a note; `arm-hooks.sh` is a step
+  that runs and reads itself back.*
+- **`.github/workflows/hup-preflight.yml`** — CI runs the **same** preflight on every push/PR.
+  A hook is armed by its own subject (and there is no non-vacuous way for the hook to check that);
+  CI cannot be forgotten, so this is the route that does not depend on arming.
 
 ## Bring the source home (Step 1)
 Buzz drops his local `hive-pwa` source (the real `app/`, `package.json`, `next.config.js`, etc.) into this repo, replacing the scaffold, then:
