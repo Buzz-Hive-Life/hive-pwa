@@ -1,11 +1,19 @@
 #!/usr/bin/env bash
 # HUP git pre-push hook for hive-pwa (Next.js).
 # Blocks the push if the pre-flight gates fail — same guard the Hermes fleet uses.
+#
+# ⚠️ FAIL CLOSED (2026-11-25, hive-security canary — its one LOW finding): this hook used to
+# exit 0 when its guard script was ABSENT, so a checkout without scripts/hup-preflight.sh
+# completed the push unguarded — the ABSENCE of the control read the same as the control
+# PASSING. An enabled hook with no guard is a broken gate, not a missing one.
 set -uo pipefail
 ROOT="$(git rev-parse --show-toplevel)"
-if [ -f "$ROOT/scripts/hup-preflight.sh" ]; then
-  bash "$ROOT/scripts/hup-preflight.sh"
-  exit $?
+if [ ! -f "$ROOT/scripts/hup-preflight.sh" ]; then
+  {
+    echo "⛔ pre-push REFUSED: scripts/hup-preflight.sh is absent, so the guard cannot run."
+    echo "   This push would look gated and not be. Restore the script, or bypass"
+    echo "   deliberately with 'git push --no-verify'."
+  } >&2
+  exit 1
 fi
-echo "hup-preflight.sh not found — allowing push (no guard active)"
-exit 0
+exec bash "$ROOT/scripts/hup-preflight.sh"

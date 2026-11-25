@@ -72,9 +72,14 @@ def summary():
                     continue
                 try:
                     e = json.loads(line)
-                except json.JSONDecodeError:
+                    # ⚠️ SHAPE-CHECK IN THE SAME try (2026-11-25, hive-security canary —
+                    # informational finding): catching only JSONDecodeError let a line that
+                    # PARSES but lacks item_id/status (or is not an object) raise
+                    # KeyError/TypeError out of summary() and abort the whole digest.
+                    # A malformed line is skipped, not fatal — latest() already reads defensively.
+                    seen[e["item_id"]] = e["status"]
+                except (json.JSONDecodeError, KeyError, TypeError, AttributeError):
                     continue
-                seen[e["item_id"]] = e["status"]
         for s in seen.values():
             states[s] = states.get(s, 0) + 1
     return states
